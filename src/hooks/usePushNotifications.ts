@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { subscribeToPush, unsubscribeFromPush } from "@/lib/push";
+import { api } from "@/api/axios";
 
 type Permission = NotificationPermission | "unsupported";
 
@@ -16,10 +17,47 @@ export function usePushNotifications() {
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
 
-    navigator.serviceWorker.ready
-      .then((registration) => registration.pushManager.getSubscription())
-      .then((subscription) => setIsSubscribed(!!subscription))
-      .catch(() => setIsSubscribed(false));
+    let cancelled = false;
+
+    async function syncStatus() {
+      try {
+        const registration = await Promise.race([
+          navigator.serviceWorker.ready,
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("SW not ready (timeout)")), 5000),
+          ),
+        ]);
+
+        const subscription = await registration.pushManager.getSubscription();
+        if (cancelled) return;
+
+        if (subscription) {
+          try {
+            await api.post("/api/v1/notifications/subscribe", {
+              endpoint: subscription.endpoint,
+              ...(subscription.toJSON().keys as {
+                p256dh: string;
+                auth: string;
+              }),
+            });
+            setIsSubscribed(true);
+          } catch {
+            setIsSubscribed(false);
+          }
+        } else {
+          setIsSubscribed(false);
+        }
+      } catch (err) {
+        console.error("Service worker not ready:", err);
+        if (!cancelled) setIsSubscribed(false);
+      }
+    }
+
+    syncStatus();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const enabled = permission === "granted" && isSubscribed;

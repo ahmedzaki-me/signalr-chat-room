@@ -9,6 +9,15 @@ function urlBase64ToUint8Array(base64: string) {
   return Uint8Array.from(raw, (c) => c.charCodeAt(0));
 }
 
+async function sendSubscriptionToServer(subscription: PushSubscription) {
+  const { endpoint, keys } = subscription.toJSON() as {
+    endpoint: string;
+    keys: { p256dh: string; auth: string };
+  };
+
+  await api.post("/api/v1/notifications/subscribe", { endpoint, ...keys });
+}
+
 export async function subscribeToPush() {
   const registration = await navigator.serviceWorker.ready;
 
@@ -23,13 +32,7 @@ export async function subscribeToPush() {
       applicationServerKey: urlBase64ToUint8Array(data.publicKey),
     });
   }
-
-  const { endpoint, keys } = subscription.toJSON() as {
-    endpoint: string;
-    keys: { p256dh: string; auth: string };
-  };
-
-  await api.post("/api/v1/notifications/subscribe", { endpoint, ...keys });
+  await sendSubscriptionToServer(subscription);
 }
 
 export async function unsubscribeFromPush() {
