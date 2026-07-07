@@ -48,18 +48,33 @@ export function LoginForm({
   });
   const { setAuth } = useAuth();
 
+  // const onSubmit = async (data: LoginFormValues) => {
+  //   try {
+  //     const response = await login(data.email, data.password);
+
+  //     console.log("Success:", response);
+
+  //     setAuth(response.token, {
+  //       userId: response.userId,
+  //       email: response.email,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const response = await login(data.email, data.password);
-
-      console.log("Success:", response);
 
       setAuth(response.token, {
         userId: response.userId,
         email: response.email,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      form.setError("root.serverError", {
+        message: error.response?.data?.message ?? "Invalid email or password",
+      });
     }
   };
   return (
