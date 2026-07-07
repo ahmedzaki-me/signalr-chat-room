@@ -17,6 +17,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
+import { AxiosError } from "axios";
 
 const signupSchema = z
   .object({
@@ -60,20 +61,22 @@ export function SignupForm({
       confirmPassword: "",
     },
   });
-  
+
   const { setAuth } = useAuth();
+
   const onSubmit = async (data: SignupFormValues) => {
     try {
       const response = await register(data.email, data.password);
-
-      console.log("Success:", response);
 
       setAuth(response.token, {
         userId: response.userId,
         email: response.email,
       });
     } catch (error) {
-      console.error(error);
+      const err = error as AxiosError<{ message: string }>;
+      form.setError("root.serverError", {
+        message: err.response?.data?.message ?? "Invalid email or password",
+      });
     }
   };
 

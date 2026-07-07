@@ -18,6 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
+import { AxiosError } from "axios";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -48,21 +49,6 @@ export function LoginForm({
   });
   const { setAuth } = useAuth();
 
-  // const onSubmit = async (data: LoginFormValues) => {
-  //   try {
-  //     const response = await login(data.email, data.password);
-
-  //     console.log("Success:", response);
-
-  //     setAuth(response.token, {
-  //       userId: response.userId,
-  //       email: response.email,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const response = await login(data.email, data.password);
@@ -71,12 +57,14 @@ export function LoginForm({
         userId: response.userId,
         email: response.email,
       });
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as AxiosError<{ message: string }>;
       form.setError("root.serverError", {
-        message: error.response?.data?.message ?? "Invalid email or password",
+        message: err.response?.data?.message ?? "Invalid email or password",
       });
     }
   };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
