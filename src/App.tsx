@@ -4,7 +4,7 @@ import { AuthProvider } from "./context/AuthProvider";
 function App() {
   return (
     <AuthProvider>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </AuthProvider>
   );
 }
