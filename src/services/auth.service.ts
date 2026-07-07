@@ -36,3 +36,8 @@ export const refresh = async () => {
     return null;
   }
 };
+
+export const logout = async () => {
+  const { data } = await api.post("/api/v1/auth/logout");
+  return data;
+};

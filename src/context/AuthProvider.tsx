@@ -56,7 +56,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (result) setAuth(result.token, storedUser);
       else clearAuth();
       setIsLoading(false);
-      console.log("bootstrap ran");
     }
     bootstrap();
   }, []);
