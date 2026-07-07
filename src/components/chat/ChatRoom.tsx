@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { HubConnection } from "@microsoft/signalr";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -22,29 +23,32 @@ type TimelineItem =
 export default function ChatRoom() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const { accessToken, clearAuth } = useAuth();
+
+  const connectionRef = useRef<HubConnection | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const loadMessages = async () => {
       const data = await getMessages();
-
       setMessages(data);
     };
-
     loadMessages();
   }, []);
 
   useEffect(() => {
     if (!accessToken) return;
+
     const connection = createChatConnection(accessToken);
-    connection.start();
+    connectionRef.current = connection;
 
     connection.on("ReceiveMessage", (message) => {
       setMessages((prev) => [...prev, message]);
     });
+    connection.start();
 
     return () => {
       connection.stop();
+      connectionRef.current = null;
     };
   }, [accessToken]);
 
@@ -85,17 +89,14 @@ export default function ChatRoom() {
   }, [messages]);
 
   const handleSend = async (message: string) => {
-    if (!accessToken) return;
-    const connection = createChatConnection(accessToken);
     if (!message.trim()) return;
-
-    await connection.invoke("SendMessage", message);
+    await connectionRef.current?.invoke("SendMessage", message);
   };
 
   const handleLogout = async () => {
     try {
-      const m = await logout();
-      console.log(m);
+      await connectionRef.current?.stop();
+      await logout();
     } finally {
       clearAuth();
     }
