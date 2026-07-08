@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { createChatConnection } from "@/services/chatConnection";
 import { getMessages } from "@/services/messages";
 import { logout } from "@/services/auth.service";
+import { unsubscribeFromPush } from "@/lib/push";
 
 import type { ChatMessage, ChatUser } from "./types";
 import { formatDay } from "./utils";
@@ -95,8 +96,17 @@ export default function ChatRoom() {
 
   const handleLogout = async () => {
     try {
-      await connectionRef.current?.stop();
+      try {
+        await unsubscribeFromPush();
+      } catch (pushError) {
+        console.error("Push unsubscription failed during logout:", pushError);
+      }
+      if (connectionRef.current) {
+        await connectionRef.current.stop();
+      }
       await logout();
+    } catch (error) {
+      console.error("Error during logout process:", error);
     } finally {
       clearAuth();
     }
