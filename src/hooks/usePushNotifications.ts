@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { subscribeToPush, unsubscribeFromPush } from "@/lib/push";
-import { api } from "@/api/axios";
+// import { api } from "@/api/axios";
 
 type Permission = NotificationPermission | "unsupported";
 
@@ -32,18 +32,7 @@ export function usePushNotifications() {
         if (cancelled) return;
 
         if (subscription) {
-          try {
-            await api.post("/api/v1/notifications/subscribe", {
-              endpoint: subscription.endpoint,
-              ...(subscription.toJSON().keys as {
-                p256dh: string;
-                auth: string;
-              }),
-            });
-            setIsSubscribed(true);
-          } catch {
-            setIsSubscribed(false);
-          }
+          setIsSubscribed(true);
         } else {
           setIsSubscribed(false);
         }
