@@ -1,75 +1,266 @@
-# React + TypeScript + Vite
+# SignalR Chat Room
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Live Demo · https://signalr-chat-room.pages.dev
 
-Currently, two official plugins are available:
+![Chat Preview](./public/chat-preview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Modern Real-Time Chat Application
 
-## React Compiler
+A production-ready real-time chat application built with **React 19**, **TypeScript**, **SignalR**, and **Vite**. The project demonstrates a modern frontend architecture with secure authentication, persistent SignalR connections, real-time messaging, and a reusable component-driven design.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Key Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🔐 Secure Authentication
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Authentication is handled using **JWT** with protected application routes.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- User Registration & Login
+- Protected Routes
+- Persistent Authentication
+- Axios Authorization Interceptor
+- Automatic Token Injection for API Requests
+- Push Notifications
+- PWA
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
 
+### ⚡ Real-Time Messaging
+
+Powered by **ASP.NET SignalR**, providing instant bidirectional communication between connected users.
+
+- Instant message delivery
+- Live message synchronization
+- Automatic SignalR reconnection
+- Connection lifecycle management
+- Authenticated SignalR connections using JWT
+
+---
+
+### 💬 Chat Experience
+
+Designed to provide a smooth messaging experience.
+
+- Load previous messages on startup
+- Real-time incoming messages
+- Message timestamps
+- Sender identification
+
+---
+
+### 🔔 Web Push Notifications
+
+Integrated browser push notifications keep users informed even when the application isn't actively open.
+
+- Browser Push Notifications
+- User-controlled notification subscription
+- Service Worker integration with VitePWA
+
+---
+
+### 🎨 Modern UI
+
+Built with **Tailwind CSS v4**, **shadcn/ui**, and **Radix UI**.
+
+- Responsive Design
+- Accessible Components
+- Modern Chat Layout
+- Clean Typography
+
+---
+
+## Tech Stack
+
+| Category                    | Technology           |
+| :-------------------------- | :------------------- |
+| **Frontend**                | React 19 + Vite 8    |
+| **Language**                | TypeScript           |
+| **Routing**                 | React Router 7       |
+| **Real-Time Communication** | SignalR              |
+| **Styling**                 | Tailwind CSS 4       |
+| **UI Components**           | shadcn/ui + Radix UI |
+| **Forms**                   | React Hook Form      |
+| **Validation**              | Zod                  |
+| **HTTP Client**             | Axios                |
+| **Icons**                   | Lucide React         |
+| **Notifications**           | Sonner + Web Push    |
+| **PWA**                     | VitePWA              |
+
+---
+
+## Project Architecture
+
+The application follows a modular architecture that separates API communication, authentication, business logic, and presentation layers.
+
+```text
+src
+│
+├── api
+│   ├── axios.ts
+│   └── authInterceptor.ts
+│
+├── components
+│   ├── auth
+│   ├── chat
+│   └── ui
+│
+├── context
+│   ├── AuthContext.tsx
+│   └── AuthProvider.tsx
+│
+├── hooks
+│   ├── useAuth.ts
+│   └── usePushNotifications.ts
+│
+├── lib
+│   ├── push.ts
+│   ├── storage.ts
+│   └── utils.ts
+│
+├── pages
+│   ├── auth
+│   └── chat
+│
+├── services
+│   ├── auth.service.ts
+│   ├── chatConnection.ts
+│   └── messages.ts
+│
+└── routes.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This structure keeps networking, authentication, reusable UI components, and application logic independent, making the project easier to maintain and scale.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Technical Highlights
 
+The project focuses on clean architecture and maintainability rather than only implementing a chat interface.
+
+### SignalR Connection Management
+
+- Dedicated SignalR service layer
+- Automatic reconnection
+- JWT authentication during connection
+- Connection lifecycle handling
+- Clean resource disposal
+
+### API Layer
+
+- Centralized Axios instance
+- Authentication interceptor
+- Reusable service modules
+- Typed API responses
+
+### Authentication
+
+- Context-based authentication
+- Protected routing
+- Persistent login sessions
+
+### Form Handling
+
+- React Hook Form
+- Zod schema validation
+- User-friendly validation messages
+
+---
+
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="./public/login.png" width="100%" alt="Login screen" /></td>
+    <td><img src="./public/signup.png" width="100%" alt="Signup screen" /></td>
+  </tr>
+</table>
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (Latest LTS)
+- [Chat API (.NET backend)](https://github.com/Mohamed-ehab-mohy/ChatApp.git) running locally or deployed
+
+---
+
+### Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/ahmedzaki-me/signalr-chat-room.git
+
+cd signalr-chat-room
 ```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create a `.env` file
+
+```env
+VITE_API_BASE_URL=http://localhost:5111/api/v1
+```
+
+Start the development server
+
+```bash
+npm run dev
+```
+
+---
+
+## Production Build
+
+```bash
+npm run build
+```
+
+Preview the production build
+
+```bash
+npm run preview
+```
+
+---
+
+## Backend Requirements
+
+The application expects a backend that provides:
+
+- JWT Authentication
+- SignalR Hub
+- Chat History API
+- Message Sending Endpoint
+- Web Push subscription endpoint (VAPID)
+
+Backend repository: [Mohamed-ehab-mohy/ChatApp](https://github.com/Mohamed-ehab-mohy/ChatApp.git)
+
+---
+
+## Contact
+
+**Ahmed Zaki** — Front-End Developer
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-ahmedzaki.me-blue?style=flat-square)](https://ahmedzaki.me)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://linkedin.com/in/ahmedzaki-me)
+
+[![GitHub](https://img.shields.io/badge/GitHub-@ahmedzaki--me-181717?style=flat-square&logo=github)](https://github.com/ahmedzaki-me)
+
+**Mohamed Ehab** — Back-End Developer
+
+[![GitHub](https://img.shields.io/badge/GitHub-@Mohamed--ehab--mohy-181717?style=flat-square&logo=github)](https://github.com/Mohamed-ehab-mohy/ChatApp.git)
+
+---
+
+## License
+
+Distributed under the MIT License.

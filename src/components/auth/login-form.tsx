@@ -78,7 +78,7 @@ export function LoginForm({
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your Zaki account
+                  Login to your Enexabit account
                 </p>
               </div>
               {form.formState.errors.root?.serverError && (
@@ -117,8 +117,10 @@ export function LoginForm({
                         Password
                       </FieldLabel>
                       <a
-                        href="/error"
+                        href="https://ahmedzaki.me"
                         className="ml-auto text-sm underline-offset-2 hover:underline"
+                        target="_blank"
+                        rel="noreferrer"
                       >
                         Forgot your password?
                       </a>

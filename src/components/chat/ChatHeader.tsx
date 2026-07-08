@@ -26,19 +26,20 @@ export function ChatHeader({ onLogout }: { onLogout: () => void }) {
 
             <Radio className="size-4 text-primary" />
 
-            <h1 className="text-lg font-semibold">Chat Room</h1>
+            <h1 className="text-lg font-semibold">Enexabit Chat Room</h1>
+            <span className="text-[10px] opacity-60">v1.0</span>
           </div>
 
           <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
-            <FolderGit2 className="size-3.5" />
+            <FolderGit2 className="size-4 text-primary" />
 
             <span>Made with</span>
 
             <a
-              href="https://github.com/ahmedzaki-me"
+              href="https://github.com/ahmedzaki-me/signalr-chat-room.git"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-primary"
+              className="hover:text-primary underline"
             >
               Ahmed Zaki
             </a>
@@ -46,10 +47,10 @@ export function ChatHeader({ onLogout }: { onLogout: () => void }) {
             <span>&</span>
 
             <a
-              href="https://github.com/..."
+              href="https://github.com/Mohamed-ehab-mohy/ChatApp.git"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-primary"
+              className="hover:text-primary underline"
             >
               Mohamed Ehab
             </a>
