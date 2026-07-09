@@ -33,7 +33,7 @@ export function ChatHeader({ onLogout }: { onLogout: () => void }) {
           <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
             <FolderGit2 className="size-4 text-primary" />
 
-            <span>Made with</span>
+            <span>Made by</span>
 
             <a
               href="https://github.com/ahmedzaki-me/signalr-chat-room.git"

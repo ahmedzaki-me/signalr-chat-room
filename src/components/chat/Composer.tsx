@@ -22,7 +22,7 @@ export function Composer({ onSend }: { onSend: (text: string) => void }) {
   return (
     <div className="p-3 sm:px-6 bg-transparent flex justify-center items-end gap-2">
       <div
-        className="flex-1 flex items-center gap-2 bg-card/80 border border-border/80
+        className="flex-1 flex items-center gap-2 bg-card/80 border border-primary/50
                   rounded-4xl px-4 py-1.5 focus-within:ring-1 focus-within:ring-primary/20"
       >
         <Textarea

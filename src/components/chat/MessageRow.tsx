@@ -22,7 +22,7 @@ export function MessageRow({ message }: { message: ChatMessage }) {
           </AvatarFallback>
         </Avatar>
 
-        <div className="min-w-0 flex-1 max-w-[75%]">
+        <div className="min-w-0 flex-1 max-w-[90%]">
           <div className="flex items-baseline gap-2">
             <span
               className={cn(
